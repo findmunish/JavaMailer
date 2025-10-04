@@ -51,6 +51,41 @@ A secure Spring Boot application with triple email functionality using Gmail SMT
 
 ### 4. Configuration
 
+#### Option A: Using Docker with Environment Variables (Recommended)
+
+1. **Copy the environment template:**
+   ```bash
+   cp env.example .env
+   ```
+
+2. **Edit `.env` file with your actual credentials:**
+   ```bash
+   # Gmail SMTP Configuration
+   GMAIL_USERNAME=your-actual-email@gmail.com
+   GMAIL_APP_PASSWORD=your-16-character-app-password
+
+   # SendGrid Configuration
+   SENDGRID_API_KEY=your-sendgrid-api-key
+   SENDGRID_FROM_EMAIL=your-verified-sender@example.com
+
+   # Amazon SES Configuration
+   AWS_SES_ACCESS_KEY=your-aws-access-key
+   AWS_SES_SECRET_KEY=your-aws-secret-key
+   AWS_SES_REGION=us-east-1
+   AWS_SES_FROM_EMAIL=your-verified-sender@example.com
+
+   # Security Configuration
+   SPRING_USER=admin
+   SPRING_PASSWORD=your-secure-password
+   ```
+
+3. **Run with Docker Compose:**
+   ```bash
+   docker-compose up -d --build
+   ```
+
+#### Option B: Using application.properties (For Local Development)
+
 Update `src/main/resources/application.properties`:
 
 ```properties
@@ -301,16 +336,46 @@ curl -u admin:password -X POST http://localhost:8080/api/send-email-ses \
 git clone <your-repository-url>
 cd java_mailer
 
-# Copy environment template
+# Copy environment template (IMPORTANT: Use this template!)
 cp env.example .env
 
-# Edit .env with your credentials
-# Then run with Docker Compose
-docker-compose up --build
+# Edit .env with your actual credentials
+# Replace all placeholder values with real credentials
+nano .env  # or use your preferred editor
 
-# Or run in detached mode
+# Run with Docker Compose
 docker-compose up -d --build
 ```
+
+### Environment Variables Setup
+
+The `env.example` file contains a template with all required environment variables:
+
+```bash
+# Gmail SMTP Configuration
+GMAIL_USERNAME=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-gmail-app-password
+
+# SendGrid Configuration  
+SENDGRID_API_KEY=your-sendgrid-api-key
+SENDGRID_FROM_EMAIL=your-verified-sender@example.com
+
+# Amazon SES Configuration
+AWS_SES_ACCESS_KEY=your-aws-access-key
+AWS_SES_SECRET_KEY=your-aws-secret-key
+AWS_SES_REGION=us-east-1
+AWS_SES_FROM_EMAIL=your-verified-sender@example.com
+
+# Security Configuration
+SPRING_USER=admin
+SPRING_PASSWORD=your-secure-password
+```
+
+**Important Notes:**
+- ✅ **`env.example`** - Safe to commit to Git (template only)
+- ❌ **`.env`** - Never commit to Git (contains real credentials)
+- 🔒 **Security** - Always use `.env` for real credentials
+- 📋 **Template** - Copy `env.example` to `.env` and fill in real values
 
 ### Docker Commands
 
@@ -328,10 +393,52 @@ docker-compose down
 docker-compose up --build
 ```
 
-## Documentation
+## Environment Variables Management
 
+### 🔒 Security Best Practices
+
+#### **env.example (Template File)**
+- ✅ **Safe to commit to Git** - Contains only placeholder values
+- 📋 **Template for developers** - Shows required environment variables
+- 🔧 **Setup guide** - Helps new team members configure the project
+- 📝 **Documentation** - Lists all required credentials
+
+#### **.env (Your Actual Credentials)**
+- ❌ **Never commit to Git** - Contains real, sensitive credentials
+- 🔒 **Local only** - Stays on your development machine
+- 🛡️ **Protected by .gitignore** - Automatically excluded from version control
+- ⚠️ **Keep secure** - Don't share this file with anyone
+
+### 📋 Setup Process
+
+#### **For New Developers:**
+1. **Clone the repository**
+2. **Copy the template**: `cp env.example .env`
+3. **Edit .env file** with real credentials
+4. **Never commit .env** to Git
+
+#### **For Production Deployment:**
+1. **Use environment variables** in your hosting platform
+2. **Set each variable** individually in your deployment environment
+3. **Never store credentials** in code or configuration files
+
+### 🔧 Environment Variables Reference
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `GMAIL_USERNAME` | Gmail email address | `your-email@gmail.com` |
+| `GMAIL_APP_PASSWORD` | Gmail App Password (16 chars) | `abcd efgh ijkl mnop` |
+| `SENDGRID_API_KEY` | SendGrid API Key | `SG.xxxxxxxxxxxxxxxxx` |
+| `SENDGRID_FROM_EMAIL` | Verified sender email | `your-verified@domain.com` |
+| `AWS_SES_ACCESS_KEY` | AWS Access Key ID | `AKIAIOSFODNN7EXAMPLE` |
+| `AWS_SES_SECRET_KEY` | AWS Secret Access Key | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
+| `AWS_SES_REGION` | AWS Region | `us-east-1` |
+| `AWS_SES_FROM_EMAIL` | Verified SES sender | `your-verified@domain.com` |
+| `SPRING_USER` | API Username | `admin` |
+| `SPRING_PASSWORD` | API Password | `your-secure-password` |
+
+## Documentation
 - **[Build and Run Guide](Documentation/BUILD_AND_RUN.md)** - Complete setup and deployment instructions
 - **[Docker Deployment](Documentation/DOCKER_DEPLOYMENT.md)** - Comprehensive Docker guide
 - **[Security Assessment](Documentation/SECURITY_ASSESSMENT.md)** - Security analysis and recommendations
 - **[Swagger API Documentation](Documentation/SWAGGER_API_DOCUMENTATION.md)** - Interactive API documentation and testing guide
-
