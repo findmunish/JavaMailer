@@ -235,6 +235,19 @@ curl -u admin:password -X POST http://localhost:8080/api/send-email-ses \
 | AWS Integration | No | No | Native |
 | Scalability | Limited | High | Very High |
 
+## API Documentation (Swagger)
+
+### Interactive API Testing
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- **OpenAPI Spec**: `http://localhost:8080/api-docs`
+- **Features**: Interactive testing, authentication, examples
+
+### Quick Test
+1. Start the application
+2. Open `http://localhost:8080/swagger-ui.html`
+3. Click "Authorize" and enter credentials
+4. Test any endpoint directly from the browser
+
 ## Docker Deployment
 
 ### Quick Start with Docker
@@ -276,3 +289,5 @@ docker-compose up --build
 - **[Build and Run Guide](Documentation/BUILD_AND_RUN.md)** - Complete setup and deployment instructions
 - **[Docker Deployment](Documentation/DOCKER_DEPLOYMENT.md)** - Comprehensive Docker guide
 - **[Security Assessment](Documentation/SECURITY_ASSESSMENT.md)** - Security analysis and recommendations
+- **[Swagger API Documentation](Documentation/SWAGGER_API_DOCUMENTATION.md)** - Interactive API documentation and testing guide
+

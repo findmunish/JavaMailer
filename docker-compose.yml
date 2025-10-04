@@ -1,0 +1,27 @@
+services:
+  java-mailer:
+    build: .
+    container_name: java-mailer-app
+    ports:
+      - "8080:8080"
+    environment:
+      # Override application.properties with environment variables
+      - SPRING_MAIL_USERNAME=${GMAIL_USERNAME:-your-email@gmail.com}
+      - SPRING_MAIL_PASSWORD=${GMAIL_APP_PASSWORD:-your-app-password}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY:-your-sendgrid-api-key}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-your-verified-sender@example.com}
+      - AWS_SES_ACCESS_KEY=${AWS_SES_ACCESS_KEY:-your-aws-access-key}
+      - AWS_SES_SECRET_KEY=${AWS_SES_SECRET_KEY:-your-aws-secret-key}
+      - AWS_SES_REGION=${AWS_SES_REGION:-us-east-1}
+      - AWS_SES_FROM_EMAIL=${AWS_SES_FROM_EMAIL:-your-verified-sender@example.com}
+      - SPRING_USER=${SPRING_USER:-admin}
+      - SPRING_PASSWORD=${SPRING_PASSWORD:-change-this-password}
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

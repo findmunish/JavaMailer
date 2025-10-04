@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+Documentation/
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven
+target/
+!target/*.jar
+
+# Logs
+*.log
+logs/
+
+# Credentials
+Credentials/
+application.properties
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Node modules (if any)
+node_modules/
+
+# Docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
