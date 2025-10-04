@@ -29,9 +29,14 @@ A secure Spring Boot application with triple email functionality using Gmail SMT
 2. Generate an API Key:
    - Go to Settings → API Keys
    - Create a new API key with "Mail Send" permissions
-3. Verify a sender identity:
+3. **IMPORTANT: Verify a sender identity** (Required for sending emails):
    - Go to Settings → Sender Authentication
-   - Verify a single sender or domain
+   - Click "Verify a Single Sender"
+   - Enter your email address (e.g., `your-email@gmail.com`)
+   - Fill out the required information
+   - Check your email inbox for verification link
+   - Click the verification link to confirm
+   - **Note**: You cannot send emails without verifying the sender first
 
 ### 3. Amazon SES Configuration
 
@@ -226,7 +231,7 @@ curl -u admin:password -X POST http://localhost:8080/api/send-email-ses \
 
 | Feature | Java Mailer (SMTP) | SendGrid | Amazon SES |
 |---------|-------------------|----------|------------|
-| Setup | Gmail App Password | API Key + Verified Sender | AWS Credentials + Verified Sender |
+| Setup | Gmail App Password | API Key + **Verified Sender Required** | AWS Credentials + **Verified Sender Required** |
 | Reliability | Good | Excellent | Excellent |
 | Analytics | Basic | Advanced | Advanced |
 | Templates | No | Yes | Yes |
@@ -234,6 +239,45 @@ curl -u admin:password -X POST http://localhost:8080/api/send-email-ses \
 | Cost | Free (Gmail) | Free tier available | Pay per email |
 | AWS Integration | No | No | Native |
 | Scalability | Limited | High | Very High |
+| **Verification** | **Gmail 2FA + App Password** | **Sender Email Must Be Verified** | **Sender Email Must Be Verified** |
+
+## Troubleshooting
+
+### SendGrid Issues
+
+#### Error: "The security token included in the request is invalid"
+- **Cause**: Sender email not verified in SendGrid
+- **Solution**: 
+  1. Go to [SendGrid Console](https://app.sendgrid.com/)
+  2. Navigate to Settings → Sender Authentication
+  3. Click "Verify a Single Sender"
+  4. Enter your email address and complete verification
+  5. Check your email and click the verification link
+  6. Restart the application: `docker-compose down && docker-compose up -d --build`
+
+#### Error: "Failed to send email via SendGrid"
+- **Check**: Verify sender email is confirmed in SendGrid console
+- **Check**: Ensure API key has "Mail Send" permissions
+- **Check**: Verify the sender email matches exactly in your `.env` file
+
+### SMTP Issues
+
+#### Error: "Authentication failed"
+- **Cause**: Gmail App Password not configured correctly
+- **Solution**: 
+  1. Enable 2-Factor Authentication on Gmail
+  2. Generate App Password (not your regular password)
+  3. Use the 16-character App Password in configuration
+
+### Amazon SES Issues
+
+#### Error: "Email address not verified"
+- **Cause**: Sender email not verified in Amazon SES
+- **Solution**: 
+  1. Go to Amazon SES Console
+  2. Navigate to Verified identities
+  3. Add and verify your email address
+  4. Check your email and click verification link
 
 ## API Documentation (Swagger)
 

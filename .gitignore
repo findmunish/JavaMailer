@@ -102,7 +102,6 @@ Credentials/
 .env.development.local
 .env.test.local
 .env.production.local
-env.example
 
 # IDE specific files
 *.swp
